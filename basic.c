@@ -18,6 +18,7 @@ void make_colors () {
     init_pair (2, COLOR_RED, -1);
     init_pair (3, COLOR_YELLOW, -1);
     init_pair (4, COLOR_GREEN, -1);
+    init_pair (5, COLOR_BLACK, -1);
 }
 
 
@@ -98,17 +99,17 @@ void create_mini_button (button* box, int start_y, int start_x, char* lable, int
     if (is_reverse)
         wattron (box -> button, A_REVERSE | A_BOLD);
     else if (is_bold)
-        wattron (box -> button, A_BOLD | BLUE);
+        wattron (box -> button, A_BOLD | BLACK);
     mvwprintw (box -> button, box -> start_line . y, box -> start_line . x, box -> lable);
     wrefresh (box -> button);
     if (is_reverse)
         wattroff (box -> button, A_REVERSE | A_BOLD);
     else if (is_bold)
-        wattroff (box -> button, A_BOLD | BLUE);
+        wattroff (box -> button, A_BOLD | BLACK);
 }
 
 
-void create_user (user* a_user, int id, char* username, char* password, char* email) {
+void create_user (user* a_user, int id, char* username, char* password, char* email, int gold, int point, int exp1, int first_time) {
     a_user -> id = id;
     a_user -> username = (char*) malloc (MAX_N * sizeof(char));
     strcpy (a_user -> username, username);
@@ -116,8 +117,10 @@ void create_user (user* a_user, int id, char* username, char* password, char* em
     strcpy (a_user -> password, password);
     a_user -> email = (char*) malloc (MAX_N * sizeof(char));
     strcpy (a_user -> email, email);
-    a_user -> gold = 0;
-    a_user -> point = 0;
+    a_user -> gold = gold;
+    a_user -> point = point;
+    a_user -> exp1 = exp1;
+    a_user -> first_time = first_time;
 }
 
 
@@ -197,4 +200,12 @@ position above_secret_door (room room, int direction) {
 
 int check_position (position pos) {
     return (pos.y >= 12 && pos.y <= 21 && pos.x >= 54 && pos.x <= 71);
+}
+
+
+int calc_room_number (position pos) {
+    int room_number = (pos.x / 31) + 1;
+    if (pos.y > 16)
+        room_number += 3;
+    return room_number;
 }
