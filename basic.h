@@ -35,11 +35,12 @@
 
 #define BLUE COLOR_PAIR(1)
 #define RED COLOR_PAIR(2)
-#define YELLOW COLOR_PAIR(4)
-#define GREEN COLOR_PAIR(3)
+#define YELLOW COLOR_PAIR(3)
+#define GREEN COLOR_PAIR(4)
+#define BLACK COLOR_PAIR(5)
 
 #define FULL_HEALTH(x) 50 * x
-#define HUNGRY_LIMIT 20
+#define HUNGRY_LIMIT 25
 
 #define PILLAR 0
 #define IN_ROOM 1
@@ -48,6 +49,21 @@
 #define WINDOWS 4
 #define STAIR 5
 #define SECRET_DOOR 7
+#define TRAP 8
+#define FOOD 9
+#define GOLD 10
+#define BLACK_GOLD 11
+// Telesm:
+#define T_HEALTH 12
+#define T_SPEED 13
+#define T_DAMAGE 14
+// Selah:
+#define GUN 14
+#define MACE 15
+#define DAGGER 16
+#define MAGIC_WAND 17
+#define NORMAL_ARROW 18
+#define SWORD 19
 
 #define SIGN_PILLAR 'O'
 #define SIGN_IN_ROOM '.'
@@ -57,6 +73,24 @@
 #define SIGN_STAIR '<'
 #define SIGN_SECRET_DOOR '?'
 #define SIGN_PLAYER '0'
+#define SIGN_TRAP '^'
+#define SIGN_FOOD '-'
+#define SIGN_GOLD '*'
+// Selah:
+#define SIGN_MACE '1'
+#define SIGN_DAGGER '2'
+#define SIGN_MAGIC_WAND '3'
+#define SIGN_NORMAL_ARROW '4'
+#define SIGN_SWORD '5'
+// Telesm:
+#define SIGN_T_HEALTH 'h'
+#define SIGN_T_SPEED 's'
+#define SIGN_T_DAMAGE 'd'
+
+#define NORMAL_FOOD 1
+#define SUPER_FOOD 2
+#define MAGIC_FOOD 3
+#define BAD_FOOD 4
 
 
 #define CONTINUE 1
@@ -95,8 +129,30 @@ typedef struct user {
     char* password;
     int gold;
     int point;
+    int exp1;
+    int first_time;
     char* email;
 } user;
+
+
+typedef struct food {
+    char* name;
+    int type;
+} food;
+
+
+typedef struct gun {
+    int number;
+    int power;
+    int range;
+    int type;
+} gun;
+
+
+typedef struct telesm {
+    int type;
+    int remain_day;
+} telesm;
 
 
 typedef struct room {
@@ -155,7 +211,7 @@ void create_button (button* box, int start_y, int start_x, char* lable, int is_r
 
 void create_mini_button (button* box, int start_y, int start_x, char* lable, int is_reverse, int is_bold);
 
-void create_user (user* a_user, int id, char* username, char* password, char* email);
+void create_user (user* a_user, int id, char* username, char* password, char* email, int gold, int point, int exp1, int first_time);
 
 
 void print_massage (char* massage, int y);
@@ -177,3 +233,5 @@ position above_door (room room, int direction);
 position above_secret_door (room room, int direction);
 
 int check_position (position pos);
+
+int calc_room_number (position pos);
