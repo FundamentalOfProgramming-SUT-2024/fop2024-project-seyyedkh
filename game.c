@@ -2071,7 +2071,7 @@ int play_game (user* player, game play) {
     refresh ();
     move (0, 0);
     int mood = 1;
-    int move = 1;
+    int move = 0;
     while (1) {
         refresh ();
         floor* floor = &play.floor[play.floor_number-1];
